@@ -1,0 +1,7 @@
+.container{
+    display: flex;
+    background-image: url(assets/fondo.gif) ;
+    flex-direction: row ;
+    /*flex-wrap: wrap;*/
+
+}
