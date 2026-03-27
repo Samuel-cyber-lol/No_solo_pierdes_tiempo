@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lienzo para Dibujar</title>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>ツ ColorCORE ツ</h1>
+    <canvas id="lienzo" width="1000" height="800"></canvas>
+
+    <div class="controls">
+        <label>Color: <input type="color" id="color" value="#000000"></label>
+        <label>Grosor: <input type="number" id="grosor" min="1" max="1000" value="3"></label>
+        <button id="limpiar">Limpiar</button>
+        <button onclick="cambiarFondoRandom()">Cambiar fondo</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("lienzo");
+        const ctx = canvas.getContext("2d");
+
+        let dibujando = false;
+        let color = document.getElementById("color").value;
+        let grosor = parseInt(document.getElementById("grosor").value);
+
+        const fondos = [
+            "assets/fondo1.gif",
+            "assets/fondo2.gif",
+            "assets/fondo3.gif",
+            "assets/fondo4.gif",
+            "assets/fondo5.gif",
+            "assets/fondo6.gif",
+            "assets/fondo7.gif",
+            "assets/fondo8.gif",
+            "assets/fondo9.gif",
+            "assets/fondo10.gif",
+            "assets/fondo11.gif",
+            "assets/fondo12.gif",
+            "assets/fondo13.gif",
+            "assets/fondo14.gif",
+            "assets/fondo15.gif",
+            
+
+            
+        ];
+
+        document.getElementById("color").addEventListener("input", e => {
+            color = e.target.value;
+        });
+
+        document.getElementById("grosor").addEventListener("input", e => {
+            grosor = parseInt(e.target.value);
+        });
+
+        function empezarDibujo(e) {
+            dibujando = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        }
+
+        function dibujar(e) {
+            if (!dibujando) return;
+
+            ctx.lineWidth = grosor;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = color;
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+        }
+
+        function terminarDibujo() {
+            dibujando = false;
+            ctx.closePath();
+        }
+
+        function cambiarFondoRandom() {
+            const indice = Math.floor(Math.random() * fondos.length);
+            document.body.style.backgroundImage = `url('${fondos[indice]}')`;
+        }
+
+        canvas.addEventListener("mousedown", empezarDibujo);
+        canvas.addEventListener("mousemove", dibujar);
+        canvas.addEventListener("mouseup", terminarDibujo);
+        canvas.addEventListener("mouseleave", terminarDibujo);
+
+        canvas.addEventListener("touchstart", e => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            empezarDibujo({
+                offsetX: touch.clientX - rect.left,
+                offsetY: touch.clientY - rect.top
+            });
+        });
+
+        canvas.addEventListener("touchmove", e => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            dibujar({
+                offsetX: touch.clientX - rect.left,
+                offsetY: touch.clientY - rect.top
+            });
+        });
+
+        canvas.addEventListener("touchend", terminarDibujo);
+
+        document.getElementById("limpiar").addEventListener("click", () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        cambiarFondoRandom();
+    </script>
+
+</body>
+</html>
