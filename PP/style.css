@@ -1,5 +1,6 @@
 body{
     background-color: black;
+    text-align: center;
 
 }
 h1 {
@@ -20,7 +21,18 @@ div{
 }
 
 footer{
+    font-weight: bold;
     text-align: center;
     color: white;
-    font-size: 60px;
+    font-size: 70px;
+}
+
+
+a {
+    font-size: 30px;
+    margin-bottom: 200px;
+    margin-top: 200px;
+    font-size: 50px;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
 }
